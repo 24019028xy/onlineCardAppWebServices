@@ -1,7 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
 require('dotenv').config();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //database config info
 const dbConfig = {
@@ -26,11 +26,11 @@ app.listen(port,() => {
 });
 
 // Example Route: Get all cards
-app.get('/addcards',async (req,res) => {
+app.get('/allcards',async (req,res) => {
     try {
         let connection = await mysql.createConnection(dbConfig);
         const [rows] = await connection.execute('SELECT * FROM defaultdb.cards');
-        req.json(rows);
+        res.json(rows);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error for allcards' });
